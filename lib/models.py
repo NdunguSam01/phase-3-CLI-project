@@ -68,4 +68,4 @@ class Mark(Base):
         return self.courses
     
     def full_marks(self):
-        return f"Mark for {self.students.full_name()}: {self.courses.course_name}- {self.mark}%"
+        return f"\nMarks for {self.students.full_name()}: \nCourse name: {self.courses.course_name} \nMarks: {self.mark}%"

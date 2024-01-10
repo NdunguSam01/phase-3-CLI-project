@@ -25,7 +25,7 @@ def add_data():
         session.add(student)
 
     courses=[
-        Course(course_name=faker.word())
+        Course(course_name=faker.random_element(elements=('Math', 'History', 'Physics', 'Chemistry', 'Biology')))
     for _ in range(5)
     ]
 
