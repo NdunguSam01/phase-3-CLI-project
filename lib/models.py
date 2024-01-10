@@ -12,8 +12,8 @@ class Student(Base):
     last_name=Column(String)
     age=Column(Integer)
 
-    marks=relationship("Mark", back_populates="students")
-    courses=relationship("Course", secondary="marks", back_populates="students")
+    marks=relationship("Mark", back_populates="students", viewonly=True)
+    courses=relationship("Course", secondary="marks", back_populates="students", viewonly=True)
 
     def __repr__(self):
         return f"Student(id={self.id}, first_name={self.first_name},last_name={self.last_name}, age={self.age})"
@@ -34,8 +34,8 @@ class Course(Base):
     id=Column(Integer, primary_key=True)
     course_name=Column(String)
 
-    students=relationship("Student", secondary="marks", back_populates="courses")
-    marks=relationship("Mark", back_populates="courses")
+    students=relationship("Student", secondary="marks", back_populates="courses", viewonly=True)
+    marks=relationship("Mark", back_populates="courses", viewonly=True)
 
     def __repr__(self):
         return f"Course(id={self.id} name={self.course_name}"

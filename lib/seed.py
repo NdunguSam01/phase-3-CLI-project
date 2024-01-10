@@ -12,6 +12,10 @@ session = Session()
 
 def add_data():
 
+    # session.delete(Student)
+    # session.delete(Course)
+    # session.delete(Mark)
+
     students=[
         Student(first_name=faker.first_name(), last_name=faker.last_name(), age=faker.random_int(1, 30))
         for _ in range(10)
@@ -21,7 +25,7 @@ def add_data():
         session.add(student)
 
     courses=[
-        Course(course_name=faker.word)
+        Course(course_name=faker.word())
     for _ in range(5)
     ]
 
@@ -38,6 +42,6 @@ def add_data():
 
     session.commit()
 
-if __name__ == "main":
+if __name__ == "__main__":
     add_data()
     
