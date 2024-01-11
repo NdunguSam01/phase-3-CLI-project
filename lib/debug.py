@@ -42,51 +42,66 @@ def student_courses(session):
         for course in courses:
             print(course.course_name)
 
-options=["Display student data", "Display all courses", "Print all marks", "Print a student's course(s)","Add a new student", "Add a new course", "Add a new student mark"]
+# options=["Display student data", "Display all courses", "Print all marks", "Print a student's course(s)","Add a new student", "Add a new course", "Add a new student mark"]
 
-@click.command()
-@click.option('--option', type=click.IntRange(1,len(options)), prompt="Select an option \n1: Display student data\n2: Display all courses\n3: Print all marks\n4: Print a student's course(s)\n5: Add a new student\n6: Add a new course\n7: Add a new student mark\n")
+# @click.command()
+# @click.option('--option', type=click.IntRange(1,len(options)), prompt="Select an option \n1: Display student data\n2: Display all courses\n3: Print all marks\n4: Print a student's course(s)\n5: Add a new student\n6: Add a new course\n7: Add a new student mark\n")
 
-def main(option):
+@click.command
+def main():
+    click.echo("Welcome to Student Information Management System")
+    click.echo("Select an option to get started")
 
+    options=[
+        "1: Display student data", 
+        "2: Display all courses", 
+        "3: Print all marks", 
+        "4: Print a student's course(s)",
+        "5: Add a new student", 
+        "6: Add a new course", 
+        "7: Add a new student mark"]
 
-    if option in range(1, len(options) +1):
-        if option == 1:
-            all_student_details(session)
+    for option in options:
+        click.echo(option)
 
-        elif option == 2:
-            all_courses(session)
+    choice=click.prompt("Enter your choice", type=int)
 
-        elif option == 3:
-            all_marks(session)
+    if choice == 1:
+        all_student_details(session)
 
-        elif option == 4:
-            student_courses(session)
+    elif choice == 2:
+        all_courses(session)
+
+    elif choice == 3:
+        all_marks(session)
+
+    elif choice == 4:
+        student_courses(session)
         
-        elif option == 5:
-            first_name=click.prompt("Student first name", type=str)
-            last_name=click.prompt("Student last name", type=str)
-            age=click.prompt("Student age:", type=int)
-            Student().add_student(session, first_name, last_name, age)
-            print("Student added successfully!")
+    elif choice == 5:
+        first_name=click.prompt("Student first name", type=str)
+        last_name=click.prompt("Student last name", type=str)
+        age=click.prompt("Student age:", type=int)
+        Student().add_student(session, first_name, last_name, age)
+        print("Student added successfully!")
 
-        elif option == 6:
-            course_name=click.prompt("Course name", type=str)
-            Course().add_course(session, course_name)
-            print("Course added successfully!")
+    elif choice == 6:
+        course_name=click.prompt("Course name", type=str)
+        Course().add_course(session, course_name)
+        print("Course added successfully!")
 
-        elif option == 7:
-            print("Add a new mark function")
-            all_student_details(session)
-            student_id=click.prompt("Enter student ID from the table above", type=int)
-            all_courses(session)
-            course_id=click.prompt("Enter course ID from the table above", type=int)
-            marks=click.prompt("Enter student mark", type=int)
-            Mark().add_mark(session,student_id,course_id, marks)
-            print("Mark added successfully!")
+    elif choice == 7:
+        print("Add a new mark function")
+        all_student_details(session)
+        student_id=click.prompt("Enter student ID from the table above", type=int)
+        all_courses(session)
+        course_id=click.prompt("Enter course ID from the table above", type=int)
+        marks=click.prompt("Enter student mark", type=int)
+        Mark().add_mark(session,student_id,course_id, marks)
+        print("Mark added successfully!")
 
-        if click.confirm('Do you want to continue?', default=False):
-            main()
+    if click.confirm('Do you want to continue?', default=False):
+        main()
 
     else:
         click.echo('Invalid operation. Please select a valid operation.')
