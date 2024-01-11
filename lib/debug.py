@@ -11,7 +11,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def all_student_details(session):
-    print("\nStudent details")
+    print("\t\t\nStudent details")
     for student in session.query(Student).all():
         print(
             {
@@ -23,12 +23,13 @@ def all_student_details(session):
         # print(f"Student ID: {student.id}\nName: {student.full_name()} \nAge: {student.age}\n")
 
 def all_courses(session):
-    print("\nCourses")
+    print("\t\t\nCourses")
     for course in session.query(Course).all():
         course=[course]
         print(course)
 
 def all_marks(session):
+    print("\t\t\nAll student marks")
     for mark in session.query(Mark).all():
         marks=()
         marks+=(mark.full_marks(),)
@@ -36,16 +37,13 @@ def all_marks(session):
 
 
 def student_courses(session):
+    print("\t\t\nAll student course(s)")
     for student in session.query(Student).all():
         courses=student.course()
         print(f"\nCourse(s) for {student.full_name()}:")
         for course in courses:
             print(course.course_name)
 
-# options=["Display student data", "Display all courses", "Print all marks", "Print a student's course(s)","Add a new student", "Add a new course", "Add a new student mark"]
-
-# @click.command()
-# @click.option('--option', type=click.IntRange(1,len(options)), prompt="Select an option \n1: Display student data\n2: Display all courses\n3: Print all marks\n4: Print a student's course(s)\n5: Add a new student\n6: Add a new course\n7: Add a new student mark\n")
 
 @click.command
 def main():
