@@ -16,7 +16,7 @@ class Student(Base):
     courses=relationship("Course", secondary="marks", back_populates="students", viewonly=True)
 
     def __repr__(self):
-        return f"Student(id={self.id}, first_name={self.first_name},last_name={self.last_name}, age={self.age})"
+        return f"Student ID:{self.id}, First Name:{self.first_name}, Last Name={self.last_name}, Age={self.age})"
     
     def mark(self):
         return self.marks
@@ -26,6 +26,11 @@ class Student(Base):
     
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def add_student(self, session, first_name, last_name, age):
+        student=Student(first_name=first_name, last_name=last_name, age=age,)
+        session.add(student)
+        session.commit()
     
 class Course(Base):
 
@@ -38,13 +43,18 @@ class Course(Base):
     marks=relationship("Mark", back_populates="courses", viewonly=True)
 
     def __repr__(self):
-        return f"Course(id={self.id} name={self.course_name}"
+        return f"Course ID:{self.id} Course Name={self.course_name}"
 
     def student(self):
         return self.students
     
     def mark(self):
         return self.marks
+    
+    def add_course(self, session, course_name):
+        course=Course(course_name=course_name)
+        session.add(course)
+        session.commit()
     
 class Mark(Base):
 
@@ -59,7 +69,7 @@ class Mark(Base):
     courses=relationship("Course", back_populates="marks")
 
     def __repr__(self):
-        return f"Mark(id={self.id}, student_id={self.student_id}, course_id={self.course_id}, mark={self.mark})"
+        return f"Mark ID:{self.id}, Student ID:{self.student_id}, Course ID:{self.course_id}, Mark:{self.mark})"
     
     def student(self):
         return self.students
@@ -68,4 +78,9 @@ class Mark(Base):
         return self.courses
     
     def full_marks(self):
-        return f"\nMarks for {self.students.full_name()}: \nCourse name: {self.courses.course_name} \nMarks: {self.mark}%"
+        return f"Marks for {self.students.full_name()}: Course name: {self.courses.course_name} Marks: {self.mark}%"
+    
+    def add_mark(self, session, student_id, course_id, mark):
+        new_mark=Mark(student_id=student_id, course_id=course_id, mark=mark)
+        session.add(new_mark)
+        session.commit()

@@ -1,47 +1,54 @@
 #!/usr/bin/env python3
 
-from faker import Faker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from models import Student, Course, Mark
 import click
 
-fake = Faker()
-
 engine = create_engine("sqlite:///school.db")
 Session = sessionmaker(bind=engine)
 session = Session()
 
 def all_student_details(session):
-    print("\nPrinting student details")
+    print("\nStudent details")
     for student in session.query(Student).all():
-        print(f"Student ID: {student.id}\nName: {student.full_name()} \nAge: {student.age}\n")
+        print(
+            {
+                "Student ID": student.id,
+                "Name": student.full_name(),
+                "Age": student.age
+            }
+        )
+        # print(f"Student ID: {student.id}\nName: {student.full_name()} \nAge: {student.age}\n")
 
 def all_courses(session):
-    print("\nPrinting all courses")
+    print("\nCourses")
     for course in session.query(Course).all():
-        print(course.course_name)
+        course=[course]
+        print(course)
 
 def all_marks(session):
-    print("\nPrinting all marks")
     for mark in session.query(Mark).all():
-        print(mark.full_marks())
+        marks=()
+        marks+=(mark.full_marks(),)
+        print(marks)
+
 
 def student_courses(session):
-    print("\nPrinting a student's courses")
     for student in session.query(Student).all():
         courses=student.course()
-        print(f"\nCourses for {student.full_name()}:")
+        print(f"\nCourse(s) for {student.full_name()}:")
         for course in courses:
             print(course.course_name)
 
+options=["Display student data", "Display all courses", "Print all marks", "Print a student's course(s)","Add a new student", "Add a new course", "Add a new student mark"]
+
 @click.command()
-@click.option('--option', type=click.IntRange(1,4), prompt="Select an option \n1: Display student data\n2: Display all courses\n3: Print all marks\n4: Print a student's courses\n")
+@click.option('--option', type=click.IntRange(1,len(options)), prompt="Select an option \n1: Display student data\n2: Display all courses\n3: Print all marks\n4: Print a student's course(s)\n5: Add a new student\n6: Add a new course\n7: Add a new student mark\n")
 
 def main(option):
 
-    options=["Display student data", "Display all courses", "Print all marks", "Print a student's courses"]
 
     if option in range(1, len(options) +1):
         if option == 1:
@@ -55,6 +62,28 @@ def main(option):
 
         elif option == 4:
             student_courses(session)
+        
+        elif option == 5:
+            first_name=click.prompt("Student first name", type=str)
+            last_name=click.prompt("Student last name", type=str)
+            age=click.prompt("Student age:", type=int)
+            Student().add_student(session, first_name, last_name, age)
+            print("Student added successfully!")
+
+        elif option == 6:
+            course_name=click.prompt("Course name", type=str)
+            Course().add_course(session, course_name)
+            print("Course added successfully!")
+
+        elif option == 7:
+            print("Add a new mark function")
+            all_student_details(session)
+            student_id=click.prompt("Enter student ID from the table above", type=int)
+            all_courses(session)
+            course_id=click.prompt("Enter course ID from the table above", type=int)
+            marks=click.prompt("Enter student mark", type=int)
+            Mark().add_mark(session,student_id,course_id, marks)
+            print("Mark added successfully!")
 
         if click.confirm('Do you want to continue?', default=False):
             main()
