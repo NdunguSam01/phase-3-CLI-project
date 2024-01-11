@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     print("\nPrinting student details")
     for student in session.query(Student).all():
-        print(f"Name: {student.full_name()} \nAge: {student.age}\n")
+        print(f"Student ID: {student.id}\nName: {student.full_name()} \nAge: {student.age}\n")
 
     print("\nPrinting all courses")
     for course in session.query(Course).all():
@@ -25,3 +25,10 @@ if __name__ == '__main__':
     print("\nPrinting all marks")
     for mark in session.query(Mark).all():
         print(mark.full_marks())
+
+    print("\nPrinting a student's courses")
+    for student in session.query(Student).all():
+        courses=student.course()
+        print(f"\nCourses for {student.full_name()}:")
+        for course in courses:
+            print(course.course_name)
