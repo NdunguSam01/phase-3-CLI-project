@@ -46,8 +46,8 @@ def student_courses(session):
 
 @click.command
 def main():
-    click.echo("Welcome to Student Information Management System")
-    click.echo("Select an option to get started")
+    click.echo("\nWelcome to Student Information Management System\n")
+    click.echo("Select an option to get started:\n")
 
     options=[
         "1: Display student data", 
@@ -61,7 +61,7 @@ def main():
     for option in options:
         click.echo(option)
 
-    choice=click.prompt("Enter your choice", type=int)
+    choice=click.prompt("\nEnter your choice", type=int)
 
     if choice in range(1,len(options) +1):
 
@@ -103,7 +103,7 @@ def main():
             main()
 
     else:
-        click.echo('Invalid operation. Please select a valid operation.\n')
+        click.echo('\nInvalid operation. Please select a valid operation.')
         main()
 
 if __name__ == '__main__':
