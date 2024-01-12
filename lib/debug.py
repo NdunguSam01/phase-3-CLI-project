@@ -20,7 +20,6 @@ def all_student_details(session):
                 "Age": student.age
             }
         )
-        # print(f"Student ID: {student.id}\nName: {student.full_name()} \nAge: {student.age}\n")
 
 def all_courses(session):
     print("\t\t\nCourses")
