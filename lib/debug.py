@@ -56,7 +56,10 @@ def main():
         "4: Print a student's course(s)",
         "5: Add a new student", 
         "6: Add a new course", 
-        "7: Add a new student mark"]
+        "7: Add a new student mark",
+        "8: Filter student data by first name",
+        "9. Filter student data by last name",
+        ]
 
     for option in options:
         click.echo(option)
@@ -98,6 +101,19 @@ def main():
             marks=click.prompt("Enter student mark", type=int)
             Mark().add_mark(session,student_id,course_id, marks)
             print("Mark added successfully!")
+
+        elif choice == 8:
+            first_name=click.prompt("Enter student first name", type=str)
+            student_data=session.query(Student).filter(Student.first_name == first_name).all()
+            for student in student_data:
+                print(f"\nStudent name: {student.full_name()}\nAge: {student.age} ")
+
+        elif choice == 9:
+            last_name=click.prompt("Enter student last name", type=str)
+            print(last_name)
+            student_data=session.query(Student).filter(Student.last_name == last_name).all()
+            for student in student_data:
+                print(f"\nStudent name: {student.full_name()}\nAge: {student.age} ")
 
         if click.confirm('Do you want to continue?', default=False):
             main()
