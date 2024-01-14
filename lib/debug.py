@@ -59,7 +59,8 @@ def main():
         "7: Add a new student mark",
         "8: Filter student data by first name",
         "9. Filter student data by last name",
-        "10. Remove a student"
+        "10. Remove a student",
+        "11. Remove a course"
         ]
 
     for option in options:
@@ -130,6 +131,16 @@ def main():
             
             else:
                 print("Student couldn't be found\n")
+
+        elif choice == 11:
+            course_name=click.prompt("Enter course name", type=str)
+            course_data=session.query(Course).filter(Course.course_name == course_name).all()
+            for course in course_data:
+                print(f"Course name: {course.course_name}")
+                if click.confirm('Delete course?', default=False):
+                        session.delete(course)
+                        session.commit()
+                        print("Course deleted succesfully!\n")
 
         if click.confirm('Do you want to continue?', default=False):
             main()
