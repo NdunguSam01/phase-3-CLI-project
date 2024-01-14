@@ -16,7 +16,7 @@ class Student(Base):
     courses=relationship("Course", secondary="marks", back_populates="students", viewonly=True)
 
     def __repr__(self):
-        return f"Student ID:{self.id}, First Name:{self.first_name}, Last Name={self.last_name}, Age={self.age})"
+        return f"Student ID:{self.id}, First Name:{self.first_name}, Last Name={self.last_name}, Age={self.age}"
     
     def mark(self):
         return self.marks

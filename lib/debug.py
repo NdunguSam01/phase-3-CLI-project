@@ -59,6 +59,7 @@ def main():
         "7: Add a new student mark",
         "8: Filter student data by first name",
         "9. Filter student data by last name",
+        "10. Remove a student"
         ]
 
     for option in options:
@@ -110,10 +111,20 @@ def main():
 
         elif choice == 9:
             last_name=click.prompt("Enter student last name", type=str)
-            print(last_name)
             student_data=session.query(Student).filter(Student.last_name == last_name).all()
             for student in student_data:
                 print(f"\nStudent name: {student.full_name()}\nAge: {student.age} ")
+
+        elif choice == 10:
+            student_first_name=click.prompt("Enter student first name", type=str)
+            student_last_name=click.prompt("Enter student last name", type=str)
+            student_data=session.query(Student).filter((Student.first_name == student_first_name and Student.last_name == student_last_name))
+            for student in student_data:
+                print(student)
+                if click.confirm('Delete student?', default=False):
+                    session.delete(student)
+                    session.commit()
+                    print("Student deleted succesfully!\n")
 
         if click.confirm('Do you want to continue?', default=False):
             main()
