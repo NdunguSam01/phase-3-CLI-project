@@ -119,12 +119,17 @@ def main():
             student_first_name=click.prompt("Enter student first name", type=str)
             student_last_name=click.prompt("Enter student last name", type=str)
             student_data=session.query(Student).filter((Student.first_name == student_first_name and Student.last_name == student_last_name))
-            for student in student_data:
-                print(student)
-                if click.confirm('Delete student?', default=False):
-                    session.delete(student)
-                    session.commit()
-                    print("Student deleted succesfully!\n")
+
+            if student_data:
+                for student in student_data:
+                    print(student)
+                    if click.confirm('Delete student?', default=False):
+                        session.delete(student)
+                        session.commit()
+                        print("Student deleted succesfully!\n")
+            
+            else:
+                print("Student couldn't be found\n")
 
         if click.confirm('Do you want to continue?', default=False):
             main()
